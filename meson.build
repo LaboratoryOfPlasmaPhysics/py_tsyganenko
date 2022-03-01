@@ -1,7 +1,7 @@
 project(
   'py_tsyganenko',
   'cpp', 'c', 'fortran',
-  version : '0.1.0',
+  version : '0.1.1',
   default_options : ['warning_level=2', 'cpp_std=c++17', 'fortran_std=legacy'],
   license : 'GPL3'
 )
@@ -17,7 +17,8 @@ extra_files = ['setup.py', 'pyproject.toml', 'README.md',
 
 tsyganenko = static_library('tsyganenko','src/Geopack-2008_dp.for','src/T96.for',
                         extra_files: extra_files,
-                        fortran_args:['-fdollar-ok', '-ffixed-form', '-fdefault-double-8', '-fdefault-real-8'])
+                        fortran_args:['-fdollar-ok', '-ffixed-form', '-fdefault-double-8', '-fdefault-real-8', '-static-libgfortran'],
+                        link_args: ['-static-libgfortran'])
 
 libquadmath = meson.get_compiler('fortran').find_library('quadmath')
 
