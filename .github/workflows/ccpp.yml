@@ -11,24 +11,12 @@ jobs:
         with:
           submodules: true
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y libcurl4-openssl-dev python3-astropy lcov g++ ninja-build && sudo pip3 install --upgrade meson
+        run: sudo apt update && sudo apt install -y libcurl4-openssl-dev python3-astropy lcov g++ ninja-build && sudo pip3 install --upgrade twine build meson
       - name: Configure with meson
-        run: meson -Db_coverage=true -Dwith_tests=true . build
+        run: meson -Db_coverage=true . build
       - name: Build (meson)
         run: ninja -C build
-      - name: Run tests (meson)
-        run: ninja test -C build
-      - name: Generate Coverage repport
-        run: |
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' --output-file coverage.info
-          lcov --list coverage.info
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.info
-          flags: unittests
-          name: codecov-cdfpp
-          yml: ./codecov.yml
-          fail_ci_if_error: true
+      - name: Build Package
+        run: python3 -m build .
+      - name: Check wheels
+        run: twine check dist/*.whl

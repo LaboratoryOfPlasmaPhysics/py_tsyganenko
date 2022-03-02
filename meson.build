@@ -1,7 +1,7 @@
 project(
   'py_tsyganenko',
   'cpp', 'c', 'fortran',
-  version : '0.1.1',
+  version : '0.1.2',
   default_options : ['warning_level=2', 'cpp_std=c++17', 'fortran_std=legacy'],
   license : 'GPL3'
 )
