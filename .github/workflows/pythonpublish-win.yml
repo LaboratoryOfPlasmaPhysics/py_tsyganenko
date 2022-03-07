@@ -20,7 +20,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: |
-          pip install twine build git+https://gitlab.com/tschoonj/mesonpep517@dump-pep425tags
+          pip install --upgrade twine build ninja hotdoc git+https://gitlab.com/tschoonj/mesonpep517@dump-pep425tags
           python -m build .
       - name: Publish on PyPi
         env:
