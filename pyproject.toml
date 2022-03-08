@@ -1,5 +1,5 @@
 [build-system]
-requires = ["mesonpep517", "ninja",]
+requires = ["git+https://github.com/jeandet/mesonpep517@windows_fix_dump-pep425tags", "ninja>=1.8.2", "meson"]
 build-backend = "mesonpep517.buildapi"
 
 
@@ -9,10 +9,9 @@ author = "Alexis Jeandet"
 author-email = "alexis.jeandet@member.fsf.org"
 summary = "A simple python wrapper of N. A. Tsyganenko Fortran models and Geopack module"
 [project]
-  [urls]
-    homepage = "https://github.com/LaboratoryOfPlasmaPhysics/py_tsyganenko"
-  license = "GNU General Public License v3"
-  readme = "README.md"
+requires-python=">=3.7"
+license = "GNU General Public License v3"
+readme = "README.md"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
@@ -25,3 +24,5 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
 ]
 dependencies = []
+[project.urls]
+homepage = "https://github.com/LaboratoryOfPlasmaPhysics/py_tsyganenko"

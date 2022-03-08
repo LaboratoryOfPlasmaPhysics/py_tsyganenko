@@ -1,8 +1,6 @@
 name: Python packages Windows
 
-on:
-  release:
-    types: [published]
+on: [push]
 
 jobs:
   build:
@@ -10,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10']
+        python-version: ['3.7', '3.10']
     name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v1
@@ -20,11 +18,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: |
-          pip install --upgrade twine build ninja requests wheel
-          ninja --version
+          choco install ninja
+          pip install --upgrade twine build requests wheel meson
+          meson . build
+          ninja -C build
           python -m build .
-      - name: Publish on PyPi
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: twine upload --skip-existing dist/*.whl

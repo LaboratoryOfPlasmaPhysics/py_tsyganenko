@@ -12,7 +12,7 @@ pymod = import('python')
 python3 = pymod.find_installation('python3')
 
 extra_files = ['setup.py', 'pyproject.toml', 'README.md',
-                '.github/workflows/ccpp.yml', '.github/workflows/pythonpublish-linux.yml',
+                '.github/workflows/ccpp.yml','.github/workflows/tests-win.yml', '.github/workflows/pythonpublish-linux.yml',
                 '.github/workflows/pythonpublish-osx.yml', '.github/workflows/pythonpublish-win.yml']
 
 tsyganenko = static_library('tsyganenko','src/Geopack-2008_dp.for','src/T96.for',

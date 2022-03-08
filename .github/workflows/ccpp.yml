@@ -11,7 +11,7 @@ jobs:
         with:
           submodules: true
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y libcurl4-openssl-dev python3-astropy lcov g++ ninja-build && sudo pip3 install --upgrade twine build meson
+        run: sudo apt update && sudo apt install -y libcurl4-openssl-dev python3-astropy lcov g++ ninja-build && sudo pip3 install --upgrade requests twine build meson
       - name: Configure with meson
         run: meson -Db_coverage=true . build
       - name: Build (meson)
