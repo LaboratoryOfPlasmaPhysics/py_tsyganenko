@@ -20,7 +20,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: |
-          pip install --upgrade twine build auditwheel
+          pip install --upgrade twine build auditwheel ninja meson
           FC=gfortran-11 CC=gcc-11 CXX=g++-11 python -m build .
       - name: Publish on PyPi
         env:
