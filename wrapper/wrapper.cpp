@@ -30,6 +30,13 @@ extern "C"
 
     void bspcar_08_(double* THETA, double* PHI, double* BR, double* BTHETA, double* BPHI,
         double* BX, double* BY, double* BZ);
+
+    extern struct
+    {
+        double ST0, CT0, SL0, CL0, CTCL, STCL, CTSL, STSL, SFI, CFI, SPS, CPS, DS3, CGST, SGST, PSI,
+            A11, A21, A31, A12, A22, A32, A13, A23, A33, E11, E21, E31, E12, E22, E32, E13, E23,
+            E33;
+    } geopack1_;
 };
 
 template <typename T>
@@ -224,14 +231,98 @@ auto gse_to_gsw(double XGSE, double YGSE, double ZGSE)
     return std::tuple { XGSW, YGSW, ZGSW };
 }
 
+struct geopack1_proxy
+{
+#define EXPOSE(name)                                                                               \
+    static double& name() { return geopack1_.name; }
+
+    EXPOSE(ST0)
+    EXPOSE(CT0)
+    EXPOSE(SL0)
+    EXPOSE(CL0)
+    EXPOSE(CTCL)
+    EXPOSE(STCL)
+    EXPOSE(CTSL)
+    EXPOSE(STSL)
+    EXPOSE(SFI)
+    EXPOSE(CFI)
+    EXPOSE(SPS)
+    EXPOSE(CPS)
+    EXPOSE(DS3)
+    EXPOSE(CGST)
+    EXPOSE(SGST)
+    EXPOSE(PSI)
+    EXPOSE(A11)
+    EXPOSE(A21)
+    EXPOSE(A31)
+    EXPOSE(A12)
+    EXPOSE(A22)
+    EXPOSE(A32)
+    EXPOSE(A13)
+    EXPOSE(A23)
+    EXPOSE(A33)
+    EXPOSE(E11)
+    EXPOSE(E21)
+    EXPOSE(E31)
+    EXPOSE(E12)
+    EXPOSE(E22)
+    EXPOSE(E32)
+    EXPOSE(E13)
+    EXPOSE(E23)
+    EXPOSE(E33)
+};
+
 PYBIND11_MODULE(py_tsyganenko, m)
 {
+#define add_geopack1_prop(PROP) def_property( \
+    #PROP, [](const geopack1_proxy&) { return geopack1_proxy::PROP(); },\
+    [](const geopack1_proxy&, double PROP) { geopack1_proxy::PROP() = PROP; })
+
+    geopack1_proxy gopp;
     m.doc()
         = "py_tsyganenko module wrapper for N. A. Tsyganenko Fortran codes from "
           "https://geo.phys.spbu.ru/~tsyganenko/empirical-models/";
     auto geopack = m.def_submodule("Geopack",
         "Geopack module wrapper, see "
         "https://geo.phys.spbu.ru/~tsyganenko/empirical-models/coordinate_systems/geopack");
+
+    py::class_<geopack1_proxy>(geopack, "__geopack1_proxy__")
+            .add_geopack1_prop(ST0)
+            .add_geopack1_prop(CT0)
+            .add_geopack1_prop(SL0)
+            .add_geopack1_prop(CL0)
+            .add_geopack1_prop(CTCL)
+            .add_geopack1_prop(STCL)
+            .add_geopack1_prop(CTSL)
+            .add_geopack1_prop(STSL)
+            .add_geopack1_prop(SFI)
+            .add_geopack1_prop(CFI)
+            .add_geopack1_prop(SPS)
+            .add_geopack1_prop(CPS)
+            .add_geopack1_prop(DS3)
+            .add_geopack1_prop(CGST)
+            .add_geopack1_prop(SGST)
+            .add_geopack1_prop(PSI)
+            .add_geopack1_prop(A11)
+            .add_geopack1_prop(A21)
+            .add_geopack1_prop(A31)
+            .add_geopack1_prop(A12)
+            .add_geopack1_prop(A22)
+            .add_geopack1_prop(A32)
+            .add_geopack1_prop(A13)
+            .add_geopack1_prop(A23)
+            .add_geopack1_prop(A33)
+            .add_geopack1_prop(E11)
+            .add_geopack1_prop(E21)
+            .add_geopack1_prop(E31)
+            .add_geopack1_prop(E12)
+            .add_geopack1_prop(E22)
+            .add_geopack1_prop(E32)
+            .add_geopack1_prop(E13)
+            .add_geopack1_prop(E23)
+            .add_geopack1_prop(E33);
+
+    geopack.attr("GEOPACK1") = gopp;
 
     geopack.def("recalc", recalc, py::arg("year"), py::arg("day"), py::arg("hour"),
         py::arg("minute"), py::arg("second"), py::arg("VGSEX"), py::arg("VGSEY"), py::arg("VGSEZ"));
