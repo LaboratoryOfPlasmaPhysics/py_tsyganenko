@@ -1,7 +1,7 @@
 project(
   'py_tsyganenko',
   'cpp', 'c', 'fortran',
-  version : '0.1.5',
+  version : '0.1.6',
   default_options : ['warning_level=2', 'cpp_std=c++17', 'fortran_std=legacy'],
   license : 'GPL3'
 )
@@ -26,11 +26,19 @@ srcs = [
   'wrapper/wrapper.cpp'
   ]
 
+if build_machine.system() == 'windows'
+    link_args = ['-static-libgfortran', '-static-libstdc++','-static-libgcc','-static']
+elif build_machine.system() == 'darwin'
+    link_args = ['-static-libgfortran', '-static-libstdc++','-static-libgcc']
+else
+    link_args = ['-static-libgfortran']
+endif
+
 python3.extension_module('py_tsyganenko', srcs,
                          link_with:[tsyganenko],
                          include_directories:'src',
                          dependencies: [ pybind11_dep, python3.dependency(),libquadmath],
-                         link_args: ['-static-libgfortran'],
+                         link_args: link_args,
                          install: true
                         )
 
