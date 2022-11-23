@@ -1,4 +1,4 @@
-name: Python packages Windows
+name: Tests on Windows
 
 on: [push]
 
