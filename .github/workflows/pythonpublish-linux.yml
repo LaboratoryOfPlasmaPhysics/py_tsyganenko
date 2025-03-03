@@ -20,7 +20,7 @@ jobs:
       - name: add Python dir to path
         run: |
             echo "/opt/python/${{ matrix.python-version }}/bin" >> $GITHUB_PATH
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - name: Build for Python ${{ matrix.python-version }}
@@ -31,7 +31,7 @@ jobs:
       - name: Make wheels universal
         run: for wheel in $(ls dist/*.whl); do auditwheel repair $wheel; done
       - name: Save packages as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: py_tsyganenko-linux-${{ matrix.python-version }}
           path: wheelhouse/*

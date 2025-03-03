@@ -14,7 +14,7 @@ jobs:
         python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
     name: Python ${{ matrix.python-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build python wheel
         uses: actions/setup-python@v4
         with:
@@ -24,7 +24,7 @@ jobs:
           pip install --upgrade twine build ninja meson numpy wheel meson-python
           FC=gfortran-14 CC=gcc-14 CXX=g++-14 python scripts/build_wheel.py
       - name: Save packages as artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: py_tsyganenko-MacOs-${{ matrix.python-version }}
           path: dist/*
