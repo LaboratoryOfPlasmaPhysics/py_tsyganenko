@@ -23,5 +23,12 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = ["numpy"]
+dynamic = [
+  'version',
+]
 [project.urls]
 homepage = "https://github.com/LaboratoryOfPlasmaPhysics/py_tsyganenko"
+
+[tool.meson-python.args]
+install = ['--tags=runtime,python-runtime']
+setup = ['-Doptimization=3', '-Dbuildtype=release', '-Dcpp_std=c++20']
